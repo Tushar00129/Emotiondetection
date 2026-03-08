@@ -1,36 +1,6 @@
-# Python cache
 __pycache__/
+.ipynb_checkpoints/
+fer2013/
 *.pyc
 *.pyo
 *.pyd
-
-# Virtual environment
-venv/
-env/
-
-# Jupyter checkpoints
-.ipynb_checkpoints/
-
-# Dataset (usually large)
-data/
-dataset/
-
-# Model weights
-*.h5
-*.pt
-*.pth
-*.ckpt
-models/
-
-# Logs
-*.log
-
-# Environment variables
-.env
-
-# VS Code
-.vscode/
-
-# OS files
-.DS_Store
-Thumbs.db
