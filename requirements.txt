@@ -1,0 +1,16 @@
+tensorflow
+pandas
+numpy
+opencv-contrib-python
+jupyter
+notebook
+tqdm
+scikit-learn
+librosa
+sounddevice
+scipy
+nltk
+pyttsx3
+requests
+tensorflow-hub
+

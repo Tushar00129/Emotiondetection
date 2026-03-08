@@ -1,0 +1,262 @@
+"""
+EMOTION FUSION QUICK START GUIDE
+Combining Facial + Voice + Text emotions into one dominant emotion
+"""
+
+# ═════════════════════════════════════════════════════════════════════════════
+# MAIN FUNCTION: fuse_emotions()
+# ═════════════════════════════════════════════════════════════════════════════
+
+# BASIC USAGE (Weighted Method - Default):
+# ────────────────────────────────────────
+
+from emotion_fusion import fuse_emotions
+
+# Combine three emotion sources
+dominant_emotion = fuse_emotions(
+    face_emotion='Happy',      # From facial detection
+    voice_emotion='Happy',     # From voice detection
+    text_sentiment='positive'  # From text analysis
+)
+
+print(f"Final emotion: {dominant_emotion}")  # Output: Happy
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# FUSION METHODS
+# ═════════════════════════════════════════════════════════════════════════════
+
+# 1. WEIGHTED METHOD (Default)
+# ────────────────────────────
+#    Assigns fixed weights: Face=50%, Voice=30%, Text=20%
+#    Best for: Most use cases
+#    Speed: Fast
+#    Accuracy: Good
+
+emotion = fuse_emotions(
+    'Happy', 'Happy', 'positive',
+    method='weighted'  # Or omit - it's the default
+)
+
+
+# 2. VOTING METHOD
+# ────────────────
+#    Each modality votes for one emotion
+#    Majority voting wins
+#    Best for: Democratic decision making
+#    Speed: Very fast
+#    Accuracy: Good
+
+emotion = fuse_emotions(
+    'Happy', 'Happy', 'positive',
+    method='voting'
+)
+
+
+# 3. HYBRID METHOD (Most Advanced)
+# ─────────────────────────────────
+#    Combines weights + confidence scores
+#    High confidence detections get more influence
+#    Best for: Production systems with confidence data
+#    Speed: Fast
+#    Accuracy: Excellent
+
+emotion = fuse_emotions(
+    'Happy', 'Happy', 'positive',
+    method='hybrid',
+    face_confidence=0.95,      # Model confidence 0-1
+    voice_confidence=0.85,
+    text_confidence=0.70
+)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# REAL-WORLD EXAMPLE: Processing multiple inputs
+# ═════════════════════════════════════════════════════════════════════════════
+
+from emotion_fusion import fuse_emotions
+from voice_emotion_detector import voice_emotion_with_confidence
+from text_sentiment_analyzer import analyze_text_sentiment, convert_sentiment_to_emotion
+
+
+# Step 1: Get facial emotion (from your webcam/detector)
+facial_emotion = "Happy"  # From facial detection model
+
+# Step 2: Get voice emotion
+voice_result = voice_emotion_with_confidence()
+voice_emotion = voice_result['emotion']
+voice_confidence = voice_result['confidence']
+
+# Step 3: Analyze text sentiment
+text = "I'm feeling great about this!"
+text_result = analyze_text_sentiment(text, verbose=False)
+text_emotion = convert_sentiment_to_emotion(text_result['sentiment'])
+text_confidence = text_result['confidence']
+
+# Step 4: Fuse all three
+final_emotion = fuse_emotions(
+    facial_emotion,
+    voice_emotion,
+    text_emotion,
+    method='hybrid',
+    face_confidence=0.90,
+    voice_confidence=voice_confidence,
+    text_confidence=text_confidence
+)
+
+print(f"\n✨ Final Emotion: {final_emotion}")
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# INTEGRATION WITH TEXT SENTIMENT ANALYZER
+# ═════════════════════════════════════════════════════════════════════════════
+
+from text_sentiment_analyzer import analyze_text_sentiment, convert_sentiment_to_emotion
+
+# Analyze text
+result = analyze_text_sentiment("I love this! It's amazing!")
+print(f"Sentiment: {result['sentiment']}")        # Output: positive
+print(f"Score: {result['score']:.1%}")             # Output: 0.95
+print(f"Confidence: {result['confidence']:.1%}") # Output: 0.98
+
+# Convert to emotion
+emotion = convert_sentiment_to_emotion(result['sentiment'])
+print(f"Emotion: {emotion}")  # Output: Happy
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# COMPLETE SYSTEM: Run triple emotion detection
+# ═════════════════════════════════════════════════════════════════════════════
+
+# Use the integrated triple emotion detection system:
+# 
+#   python triple_emotion_detection.py
+#
+# Commands:
+#   v = Record voice (1.5s)
+#   t = Type text
+#   f = Show fused result
+#   r = Reset
+#   q = Quit
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# EMOTION CLASSES
+# ═════════════════════════════════════════════════════════════════════════════
+
+# Supported emotions:
+emotions = ['Angry', 'Fear', 'Happy', 'Neutral', 'Sad', 'Disgust', 'Surprised']
+
+# Text sentiment maps to emotions:
+# 'positive'  → 'Happy'
+# 'negative'  → 'Sad'
+# 'neutral'   → 'Neutral'
+
+# Face emotions (from your facial model):
+# 'angry', 'fear', 'happy', 'neutral', 'sad', 'disgust', 'surprised'
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# FUSION WEIGHTS EXPLANATION
+# ═════════════════════════════════════════════════════════════════════════════
+
+# Why these weights?
+#
+# Face: 50% (50%)
+#   ✓ Most reliable
+#   ✓ Difficult to fake
+#   ✓ Real-time, continuous
+#
+# Voice: 30% (30%)
+#   ✓ Very reliable
+#   ✓ Natural emotional indicator
+#   ✓ Cannot control completely
+#
+# Text: 20% (20%)
+#   ✓ Moderate reliability
+#   ✓ Easy to fake
+#   ✓ May not reflect true emotion
+#
+# You can customize these weights:
+
+from emotion_fusion import fuse_emotions_weighted
+
+emotion, scores = fuse_emotions_weighted(
+    'Happy', 'Happy', 'positive',
+    weights={
+        'face': 0.6,   # Increase to 60%
+        'voice': 0.3,  # Keep at 30%
+        'text': 0.1    # Decrease to 10%
+    }
+)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# EXAMPLE SCENARIOS
+# ═════════════════════════════════════════════════════════════════════════════
+
+print("\n" + "="*70)
+print("FUSION EXAMPLE SCENARIOS")
+print("="*70)
+
+scenarios = [
+    ("Happy", "Happy", "positive", "All three agree → Strong Happy"),
+    ("Happy", "Angry", "positive", "Conflicting → Face + Text > Voice"),
+    ("Neutral", "Happy", "neutral", "Mixed → Weighted decision"),
+    ("Sad", "Sad", "negative", "All three agree → Strong Sad"),
+]
+
+for face, voice, text, description in scenarios:
+    result = fuse_emotions(face, voice, text)
+    print(f"\n{description}")
+    print(f"  Result: {result}")
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# API REFERENCE
+# ═════════════════════════════════════════════════════════════════════════════
+
+"""
+fuse_emotions(
+    face_emotion: str,
+    voice_emotion: str,
+    text_sentiment: str,
+    method: str = 'weighted',
+    **kwargs
+) → str
+
+Parameters:
+  - face_emotion: Emotion from facial detection
+  - voice_emotion: Emotion from voice detection
+  - text_sentiment: Sentiment from text analysis
+  - method: 'weighted', 'voting', or 'hybrid'
+  - kwargs: Additional parameters for specific methods
+
+Returns:
+  - String: Final dominant emotion
+
+Example:
+  emotion = fuse_emotions('Happy', 'Happy', 'positive')
+"""
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# TROUBLESHOOTING
+# ═════════════════════════════════════════════════════════════════════════════
+
+# Q: Why is the fused emotion not what I expected?
+# A: Check individual emotion detections first before fusion
+#
+# Q: How do I adjust the weights?
+# A: Use fuse_emotions_weighted() with custom weights parameter
+#
+# Q: Which method should I use?
+# A: Start with 'weighted' (default), upgrade to 'hybrid' if you have confidences
+#
+# Q: Can I use only 2 emotions?
+# A: Yes, pass any value for the third (e.g., 'Neutral' as default)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+
+print(__doc__)
